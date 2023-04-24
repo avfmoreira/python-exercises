@@ -1,5 +1,5 @@
 '''
-This exercise propursal was training OOP concepts 
+The exercise propursal was training OOP concepts  
 '''
 import random
 
