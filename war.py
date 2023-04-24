@@ -1,3 +1,6 @@
+'''
+This exercise propursal was training OOP concepts 
+'''
 import random
 
 suits = ('Hearts', 'Diamonds', 'Spades', 'Clubs')
