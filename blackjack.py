@@ -5,8 +5,6 @@ a computer dealer
 a human player
 
 
-
-
 '''
 
 import random
@@ -62,6 +60,12 @@ class Dealer: #create dealer
         self.hand.append(new_card)
         return True
     
+    def chips_values(self):
+        counter_cards_values = 0
+        for card in self.hand:
+            counter_cards_values += card.value
+        return counter_cards_values
+    
 class Player:
     def __init__(self, name):
 
@@ -85,13 +89,10 @@ class Player:
             counter_cards_values += card.value
         return counter_cards_values
 
-
-
 '''
 ## Game Play
 To play a hand of Blackjack the following steps must be followed:
 
-3. Ask the Player for their bet
 4. Make sure that the Player's bet does not exceed their available chips
 5. Deal two cards to the Dealer and two cards to the Player
 6. Show only one of the Dealer's cards, the other remains hidden
@@ -116,6 +117,15 @@ while i < 2:
 
 playing = True
 while playing:
+    if(player.chips_values() == 21):
+        # WIIIIIIIN
+        pass
+        break
+    if(player.chips_values() > 21):
+        #Loooooose
+        pass
+        break
+
     print(f'your cards sum {player.chips_values()}')
     if dealer.ask_for_bet():
         player.add_card_hand(dealer.get_new_card())
