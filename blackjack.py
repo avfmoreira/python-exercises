@@ -5,8 +5,7 @@ a computer dealer
 a human player
 
 TO-DO: 
-- check result message
-- check ace variation
+
 - limit hit dealer
 - ask about play again  
 '''
@@ -15,7 +14,6 @@ import random
 
 suits = ('Hearts', 'Diamonds', 'Spades', 'Clubs')
 ranks = ('Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Jack', 'Queen', 'King', 'Ace')
-#best_ace = {'1': 1, '11': 11}
 values = {'Two':2, 'Three':3, 'Four':4, 'Five':5, 'Six':6, 'Seven':7, 'Eight':8, 
           'Nine':9, 'Ten':10, 'Jack':10, 'Queen':10, 'King':10, 'Ace': 11}
 
@@ -72,7 +70,7 @@ class Player():
             return True
         return False
 
-class Dealer(Player): #create dealer
+class Dealer(Player): #set dealer
 
     def __init__(self):
         self.name = 'Dealer'
@@ -92,59 +90,60 @@ class Dealer(Player): #create dealer
     def get_new_card(self):
         return self.deck.pop()
     
-'''
-## Game Play
-To play a hand of Blackjack the following steps must be followed:
-
-
-
-9. If the Player's hand doesn't Bust (go over 21), ask if they'd like to Hit again.
-10. If a Player Stands, play the Dealer's hand. The dealer will always Hit until the Dealer's value meets or exceeds 17
-11. Determine the winner and adjust the Player's chips accordingly
-12. Ask the Player if they'd like to play again
-'''
 def show_results(winner_obj, loser_obj):
     print(f'Congratulations {winner_obj.name}, YOU WIN!')
-    print(f'Your cards sum was {winner_obj.check_chips()}')
-    print(f'{loser_obj} cards sum was {loser_obj.check_chips()}')
+    print('Your cars were: ')
+    [print(f'- {card}') for card in winner_obj.hand]
+    print(f'Total sum was: {winner_obj.check_chips()}')
+    
+    print('----------------')
+    
+    print(f'{loser_obj.name} LOSE.')
+    print('Your cars were: ')
+    [print(f'- {card}') for card in loser_obj.hand]
+    print(f'Total sum was: {loser_obj.check_chips()}')
 
 dealer = Dealer()
 player = Player("Andre")
 
 i = 0
 while i < 2:
-    
+    #add two card for each of them
     player.add_card_hand(dealer.get_new_card())
     dealer.add_card_hand(dealer.get_new_card())
     i += 1
 
+print(f'Your cards are:')
+[print(f'- {card}') for card in player.hand]
+print()
+print(f'The Dealer has {len(dealer.hand)} and one of them is {dealer.hand[-1]}')
+print()
+
 playing = True
+endgame = False
 while playing:
-    print(f'Your cards are:')
-    [print(card) for card in player.hand]
-    print()
-    print(f'The Dealer has {len(dealer.hand)} and one of them is {dealer.hand[-1]}')
-    print()
     
-    if(player.is_winner()):
-        show_results(player, dealer)
-        break
-        
-    if(dealer.is_winner()):
-        show_results(dealer, player)
-        break
-    
-    if(player.is_loser()):
-        show_results(dealer, player)
-        break
-      
-    if(dealer.is_loser()):
+    if player.is_winner() or dealer.is_loser(): #check if player wins
         show_results(player, dealer)
         break
     
-    
-    if dealer.ask_for_bet():
-        player.add_card_hand(dealer.get_new_card())
-        dealer.add_card_hand(dealer.get_new_card())
+    elif player.is_loser() or dealer.is_winner(): #check if player lose
+        show_results(dealer, player)
+        break
+    elif endgame: #if player denied pick more cards and dealer has at least 17 chips
+        if dealer.check_chips() >= player.check_chips():
+            show_results(dealer, player)
+        else:
+            show_results(player, dealer)
+        break
+        #TO-DO ask about play again
     else:
-        playing = False
+        if dealer.ask_for_bet():
+            player.add_card_hand(dealer.get_new_card())
+            print(f'{player.name}, your new card is: {player.hand[-1]}')
+            print()
+        else:
+            if(dealer.check_chips() >= 17):
+                dealer.add_card_hand(dealer.get_new_card())
+            else:
+                endgame=True
