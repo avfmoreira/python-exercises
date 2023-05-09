@@ -1,12 +1,10 @@
 '''
-a black jack simple game version
+a blackjack  game 
 
 a computer dealer
 a human player
 
 TO-DO: 
-
-- limit hit dealer
 - ask about play again  
 '''
 
