@@ -3,8 +3,6 @@ a blackjack  game
 
 a computer dealer vs. a human player
 
-TO-DO: 
-- ask about play again  
 '''
 
 import random
