@@ -35,7 +35,7 @@ class Deck: #Construct the deck of cards from Card
     def suffle_cards(self):
         random.shuffle(self.all_cards)
 
-class Player():
+class Player(): #define Player class and your methods
     def __init__(self, name="John"):
 
         self.name = name
@@ -65,7 +65,7 @@ class Player():
             return True
         return False
 
-class Dealer(Player): #set dealer
+class Dealer(Player): #The dealer too has player behaviour so it's inheriting from player class
 
     def __init__(self):
         self.name = 'Dealer'
